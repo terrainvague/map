@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+  <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      .my-class{
+width:250pt;
+        }
+      .pic_sls {
+        //border-left: 2px solid #fa4768;
+        border-right:1px solid #fa4768;
+        margin-left: 15px;
+         margin-top:  30pt;
+        margin-right: 40px;
+        content: ""
+      }
+      .slick-prev:before, .slick-next:before {
+        color: rgba(0,0,0,0.9);
+      }
+      .nam {
+        margin-left: 10px;
+        font-family:Roboto, black;
+        
+    font-size: 18pt;
+    margin-bottom: : 0pt;
+      }
+      .adr {
+        margin-left: 10px;
+        margin-right: 30px;
+        font-family: 'Roboto', medium;
+        font-size: 8.5pt;
+       line-height: 11pt;
+       margin-top: -8pt;
+      }
+       .desc {
+        margin-top: -8pt;
+     
+        margin-left: 10px;
+        padding-right: 40px;
+        word-break: break-word;
+        word-wrap: break-word; 
+        font-family: 'Roboto', serif;
+        font-weight: lighter;
+    font-size: 8.5pt;
+    line-height: 11pt;
+    margin-block-start: unset;
+    margin-block-end: 25pt;
+      }
+      .status {
+        margin-top: 30pt;
+        margin-bottom: -3px;
+        margin-left: 10px;
+         font-family: 'Roboto', serif;
+        font-weight: lighter;
+    font-size: 8pt;
+    margin-block-end: unset;
+      }
+     .state {
+      margin-left: 10px;
+       margin-top: 0px;
+      padding-right: 30px;
+        margin-right: 10px;
+        font-family: 'Roboto', serif;
+        font-weight: lighter;
+         letter-spacing: 0pt;
+         line-height: 9pt;
+    font-size: 8pt;
+    font-style: italic;
+    }
+     .upd{
+    margin-left: 10px;
+    font-family:Courier New;
+    font-size: 7pt;
+    padding-bottom: -8pt;
+    font-weight: bolder;
+    margin-top: 45pt;
+    margin-bottom: -8pt;
+    line-height: 0px
+    }
+    .last_upd{
+      float: left;
+      line-height: 0px
+      margin-top: 0pt;
+      padding-top:  0pt;
+      margin-left: 10px;  
+     font-family:Courier New;
+    font-size: 7pt;
+    }
+    </style>
+</head>
+<body>
+  <div id="map" ></div>
+  <script>
+    var pics = {
+      1: [
+        "https://2.bp.blogspot.com/-lDHdrJIcU08/XCk3W6t0btI/AAAAAAAABXI/5HFIzyyjSfcs9f5Tf1Iiylpime7POkBugCLcBGAs/s320/DSC_9240.JPG", 
+        "https://4.bp.blogspot.com/-LO8tCsP8e3U/XCk3WyJFi5I/AAAAAAAABXM/UkiPxbgWY5UWM2n2emYe0cDUQ6cCf8M0wCLcBGAs/s320/DSC_9275.JPG"
+      ], 
+      2: [
+        "https://4.bp.blogspot.com/-nxZaMHAU6yg/XCk3U9AhagI/AAAAAAAABW4/Yzd90nnB6xgjH1eIeOHCXCYARbbHkOEswCLcBGAs/s320/DSC_0312.JPG", 
+        "https://2.bp.blogspot.com/-hvHyN9UFqTY/XCk3UwjV9yI/AAAAAAAABXE/D9uX8SYTjjA5qfJ_rBtF5BvQxSBZDY-jgCLcBGAs/s320/DSC_0324.JPG"
+      ], 
+      3: [
+        "https://3.bp.blogspot.com/-HnnRA_XgVCo/XCk3U6rCliI/AAAAAAAABW8/1Jsa5njB2UcTJVXGfb8KjYAIXGRoDg75QCLcBGAs/s320/DSC_0356.JPG",
+        "https://4.bp.blogspot.com/-T5ORjIPsElE/XCk3X5G_8lI/AAAAAAAABXc/9JaAYAFD6ycAJ5kowyoyeKv1qCpp_hiKACLcBGAs/s320/IMG_9520.JPG"
+      ], 
+      4: [
+        "https://4.bp.blogspot.com/-u6_VM6XsJ3k/XCk3Zc8p88I/AAAAAAAABXw/wVGRKm6nPDcmNoAM7iQx2iOwAJDVtVhMQCLcBGAs/s320/image_2018-12-29_18-01-42.png",
+        "https://4.bp.blogspot.com/-WCsASA09yvE/XCk3ZD4TTFI/AAAAAAAABXo/DL3QJrkZHag_iiiLBaVb4wFtJSpwNxHTwCLcBGAs/s320/image_2018-12-29_18-01-22.png"
+      ], 
+      5: [
+        "https://4.bp.blogspot.com/-sg9ZB4c_n8g/XCk3cM8EB4I/AAAAAAAABYM/SYooESWFr8AQv4F3muM3nwuZyQO6NUBfwCLcBGAs/s320/photo_2018-06-10_19-39-26.jpg",
+        "https://4.bp.blogspot.com/-EJLvrPgjk1Q/XCk3cXJnyTI/AAAAAAAABYQ/ke6Br23FmtYJDwbJb89yY96hxkbVFsm_ACLcBGAs/s320/photo_2018-06-10_19-39-48.jpg"
+
+      ], 
+      6: [
+        //"https://1.bp.blogspot.com/-uORUii2i6vM/XCk3dA5sRWI/AAAAAAAABYg/MDPA47q7jk0VcJcKmJR_Fk4aKN6IbGQkgCLcBGAs/s320/photo_2018-06-10_19-45-55.jpg",
+       "https://4.bp.blogspot.com/-PECkDeSKv0M/XCk3dAmKWII/AAAAAAAABYc/4bVTzQz9YTI-ccI-LW45xSSnZaD-9PCcACLcBGAs/s320/photo_2018-06-10_19-45-53.jpg"
+      ], 
+      7: [
+       "https://4.bp.blogspot.com/-j_PZpeCkZB8/XCk3Yec0s4I/AAAAAAAABXg/M52_21ylLuEH_LRp_7sAoR-4MVvUEx0FQCLcBGAs/s320/image_2017-12-16_21-46-54.png"
+      ], 
+      8: [
+        "https://1.bp.blogspot.com/-sSqlz37Sm5g/XCk3bg3Lj3I/AAAAAAAABYE/S1n3cIp1mi4FMQaxGaBgYDCRB-l13LREwCLcBGAs/s320/photo_2017-12-03_11-11-12%2B%25281%2529.jpg",
+        "https://3.bp.blogspot.com/-K87djoeYrHw/XCk3bv3lAZI/AAAAAAAABYI/bnn4XRg70ycMAdD6FovoK6UEpLy5LhLBwCLcBGAs/s320/photo_2017-12-03_11-11-12%2B%25282%2529.jpg"
+      ], 
+      9: [
+        "https://1.bp.blogspot.com/-IUCTNpZAfpQ/XCk3XtVXxRI/AAAAAAAABXU/uab4nQWwst0KFMAxo9a2qNULow_a_GttACLcBGAs/s320/IMG_3559.JPG",
+        "https://1.bp.blogspot.com/-wmlPesae9KI/XCk3X4NbbhI/AAAAAAAABXY/EzNKzJWkMX4lUy5Oy9fMu4RDKbkngym6wCLcBGAs/s320/IMG_3560.JPG"
+      ], 
+      10: [
+        "https://1.bp.blogspot.com/-4SZYrVwlvHk/XCk3cqcOUbI/AAAAAAAABYY/pwoGxpp1PkUoDfKCrLcuH8h2Lzx2H_10wCLcBGAs/s320/photo_2018-06-10_19-41-49.jpg",
+        "https://4.bp.blogspot.com/-5O2rzczw-w0/XCk3cmqBdoI/AAAAAAAABYU/vd7vWAZCDqYx6TrldbTbhpSS14oPXijlgCLcBGAs/s320/photo_2018-06-10_19-41-45.jpg"
+      ], 
+      11: [
+        "https://2.bp.blogspot.com/-uNBcQm3BIss/XCk3Y_dU1II/AAAAAAAABXk/vbRaAgtLpjMrrahxbl1op6fze3bt55_UACLcBGAs/s320/image_2018-12-29_17-57-55.png"
+      ],  
+      12: [
+        "https://3.bp.blogspot.com/-Su_QLB9spTc/XCk3aUErR9I/AAAAAAAABX8/93ebhthxckkznlHf97FE734Oxu-5BmWuQCLcBGAs/s320/image_2018-12-29_18-08-48.png",
+        "https://2.bp.blogspot.com/-yYV7_x-gwog/XCk3auzY97I/AAAAAAAABX0/QFrWMnpLfnEHyFBzj07o6pMC0afc0iigwCLcBGAs/s320/image_2018-12-29_18-10-30.png"
+      ],  
+      13: [
+        "https://2.bp.blogspot.com/-RKrLBKrZEK0/XCk3auAA6dI/AAAAAAAABX4/bG1uAyhZRpMiaTlhYvotbi-zgYQegsDZwCLcBGAs/s320/in%2Bsitu091.jpg",
+        "https://1.bp.blogspot.com/-bAdyzOAOlvU/XCk3bVfLqzI/AAAAAAAABYA/mFdg8Z1Yx2ofAI1_JjOIykMwg48n-J4iwCLcBGAs/s320/in%2Bsitu125.jpg"
+      ],  
+      14: [
+        "https://2.bp.blogspot.com/-J-cbWQx-ZqM/XCk3ZgoZz0I/AAAAAAAABXs/R5hsDUzdHOo-qlFAwKwd7zFOsiJr-9dNwCLcBGAs/s320/image_2018-12-29_18-07-28.png"
+      ], 
+      15: [
+        "https://1.bp.blogspot.com/-d-AVvtItpsA/XCk3WGORb3I/AAAAAAAABXQ/cOZa1V4xFgk6Lex9FgRr8eAAll1i3nGwwCLcBGAs/s320/DSC_0390.JPG", 
+        "https://3.bp.blogspot.com/-JfWZ_9DnoDQ/XCk3V1hfzoI/AAAAAAAABXA/q6TBzSs5JNQRTZ24zEat_akEfGrTPZDoACLcBGAs/s320/DSC_0378.JPG"
+      ],
+    };
+    mapboxgl.accessToken = "pk.eyJ1Ijoic2hldmNoZW5rbzQ1IiwiYSI6ImNqMWZnb3NnNjAwMHIyd3J4c29wOHgybzEifQ.J9NgVo7RF1BBhdYIkVKKwQ";
+    var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/shevchenko45/cj8lwywy96cs72sn45pim7gi9",
+        center: [35.051303, 48.459590],
+        minZoom: 15,
+  maxZoom: 19,
+    });
+    map.on("click", function(e) {
+      console.log("Clicked on :")
+      console.log(e.point)
+      var features = map.queryRenderedFeatures(e.point, {
+        layers: ["bt6"]
+      });
+      console.log(features)
+      if (!features.length) {
+        return;
+      }
+      var feature = features[0];
+      console.log(feature)
+      var piclist = pics[feature.properties.id]; // replace feature.id by feature.properties.id
+      var picsHTML = `<div class="pic_sls">${piclist.map(x=>"<img width=200 src='"+x+"' />").join("")}</div>`;
+      var popup = new mapboxgl.Popup({ offset: [0, -15], className:'my-class'})
+        .setLngLat(feature.geometry.coordinates[0].reduce(([x1,y1],[x2,y2])=>[(x1+x2)/2,(y1+y2)/2]))
+        .setHTML(`<h3 class="nam">${feature.properties.name}</h3>`+ 
+          `<p class="adr">${feature.properties.adresse}</p>`+ 
+          `<p class="desc">${feature.properties.description}</p>`+
+          `<p class="status">${feature.properties.status}</p>`+
+           `<p class="state">${feature.properties.state}</p>`+
+            picsHTML  +
+           `<p class="upd">${feature.properties.update}</p>`+
+           `<p class="last_upd">${feature.properties.last_upd}</p>`
+          )
+        .addTo(map);
+      $(".pic_sls").slick({
+        slidesToShow: 1,
+        infinite: true,
+        dots: true
+      });
+    });
+  </script>
+</body>
+</html>
